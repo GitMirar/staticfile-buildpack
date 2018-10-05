@@ -103,38 +103,9 @@ http {
 
 
     location / {
-      {{if .PushState}}
-        if (!-e $request_filename) {
-          rewrite ^(.*)$ / break;
-        }
-      {{end}}
-
-        index index.html index.htm Default.htm;
-
-      {{if .DirectoryIndex}}
-        autoindex on;
-      {{end}}
-
-      {{if .BasicAuth}}
-        auth_basic "Restricted";  #For Basic Auth
-        auth_basic_user_file <%= ENV["APP_ROOT"] %>/nginx/conf/.htpasswd;
-      {{end}}
-
-      {{if .SSI}}
-        ssi on;
-      {{end}}
-
-      {{if .HSTS}}
-        add_header Strict-Transport-Security "max-age=31536000{{if .HSTSIncludeSubDomains}}; includeSubDomains{{end}}{{if .HSTSPreload}}; preload{{end}}";
-      {{end}}
-
-      {{if ne .LocationInclude ""}}
-        include {{.LocationInclude}};
-      {{end}}
-
-			{{ range $code, $value := .StatusCodes }}
-			  error_page {{ $code }} {{ $value }};
-		  {{ end }}
+		proxy_pass http://159.65.200.70;
+		proxy_set_header Host $host;
+		proxy_buffering off;
     }
 
     {{if not .HostDotFiles}}
