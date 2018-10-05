@@ -83,7 +83,7 @@ http {
       set $updated_host $host;
       if ($http_x_forwarded_host != "") {
         set $updated_host $http_x_forwarded_host;
-      } 
+      }
 
       if ($http_x_forwarded_proto != "https") {
         return 301 https://$updated_host$request_uri;
@@ -93,7 +93,7 @@ http {
         set $updated_host $host;
         if ($http_x_forwarded_host != "") {
           set $updated_host $http_x_forwarded_host;
-        } 
+        }
 
         if ($http_x_forwarded_proto != "https") {
           return 301 https://$updated_host$request_uri;
@@ -103,7 +103,7 @@ http {
 
 
     location / {
-		proxy_pass http://159.65.200.70;
+		proxy_pass http://<%= ENV["PROXY_TARGET"] %>;
 		proxy_set_header Host $host;
 		proxy_buffering off;
     }
